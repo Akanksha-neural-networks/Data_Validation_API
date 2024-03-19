@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
-import { SnowflakeService } from './snowflake.service';
-import { SnowflakeController } from './app.controller';
+import { Postgresmodule } from './postgres/postgres.module';
+import { Mysqlmodule } from './mysql/mysql.module';
+import { SnowflakeModule } from './snowflake/snowflake.module';
+import { PreviewModule } from './preview/preview.module';
 
 
 @Module({
-  imports: [],
-  controllers: [SnowflakeController],
-  providers: [SnowflakeService],
+  imports:[Postgresmodule,Mysqlmodule,SnowflakeModule,PreviewModule],
+  controllers: [],
+  providers: [],
 })
 export class RootModule {}
