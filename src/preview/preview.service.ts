@@ -15,19 +15,25 @@ export class PreviewService {
     ) {}
 
     
-    async previewData(previewDto: PreviewDto): Promise<any> {
-        const { engine, database, table,schema } = previewDto;
+    async previewData(previewDto: PreviewDto[]): Promise<any[]> {
+    
         try {
+
+            const result=[];
+            await Promise.all (previewDto.map(async (preview:PreviewDto)=>{
+
+            const { engine, database, table,schema } = preview;
+
             let data;
             switch (engine) {
                 case "postgres":
-                    console.log("entered postgresssss->",database,table)
+                    // console.log("entered postgresssss->",database,table)
                     try{
                         data= await this.postgresService.executeQuery(database,table);
-                        return {"engine":engine,"data":data};
+                        result.push( {"engine":engine,"data":data} );
                     }
                     catch(error){
-                        return {message: `Failed to fetch data from postgres: ${error.message}`}
+                        throw new  Error(`Failed to fetch data from postgres: ${error.message}`);
                     }
                     break;
 
@@ -36,10 +42,10 @@ export class PreviewService {
 
                     try {
                         data=await this.mysqlService.executeQuery(database,table);
-                        return data;
+                        result.push( {"engine":engine,"data":data} );
                         
                     } catch (error) {
-                        return {message: `Failed to fetch data from Mysql: ${error.message}`}
+                        throw new  Error(`Failed to fetch data from mysql: ${error.message}`);
                         
                     }
                     break;
@@ -49,10 +55,10 @@ export class PreviewService {
 
                     try {
                         data = await this.snowflakeService.executeQuery(database,schema,table);
-                        return {"engine":engine,"data":data};
+                        result.push( {"engine":engine,"data":data} );
                     } 
                     catch (error) {
-                        return{message: `Failed to fetch data: ${error.message}`}
+                        throw new  Error(`Failed to fetch data from snowflake: ${error.message}`);
                     }
 
                     break;
@@ -61,12 +67,18 @@ export class PreviewService {
                     throw new Error(`Unsupported engine type: ${engine}`);
             }
 
-            return data;
+            
 
+
+            }) );
+
+            return result;
+
+          
         } 
         
         catch (error) {
-            return { message: `Failed to fetch data: ${error.message}` };
+            throw error;
         }
 
     }

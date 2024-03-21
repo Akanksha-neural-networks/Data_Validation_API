@@ -17,7 +17,7 @@ export class PreviewController {
     ) {}
 
     @Post()
-    async previewData(@Body() previewDto:PreviewDto): Promise<any> {
+    async previewData(@Body() previewDto:PreviewDto[]): Promise<any[]> {
         return this.previewService.previewData(previewDto);
         
     }
