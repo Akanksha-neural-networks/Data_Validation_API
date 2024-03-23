@@ -29,7 +29,7 @@ export class PreviewService {
                 case "postgres":
                     // console.log("entered postgresssss->",database,table)
                     try{
-                        data= await this.postgresService.executeQuery(database,table);
+                        data= await this.postgresService.executeQuery(database,table,);
                         result.push( {"engine":engine,"data":data} );
                     }
                     catch(error){
