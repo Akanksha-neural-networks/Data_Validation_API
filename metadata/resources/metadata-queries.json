@@ -1,0 +1,5 @@
+{
+    "snowflake": "CALL GET_DATABASES_SCHEMAS_TABLES();",
+    "mysql": "SELECT JSON_OBJECT('engine', 'mysql', 'metadata', JSON_ARRAYAGG(JSON_OBJECT('database', database_name, 'tables', tables))) AS result FROM (SELECT table_schema AS database_name, JSON_ARRAYAGG(table_name) AS tables FROM information_schema.tables GROUP BY table_schema) AS database_tables;",
+    "postgres": "select get_metadatanew();"
+}
