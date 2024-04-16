@@ -7,6 +7,7 @@ import configuration from './config/configuration';
 import { ConfigModule } from '@nestjs/config';
 import { MetadataModule } from 'src/metadata/metadata.module';
 import { CountModule } from './count/count.module';
+import { CommonColumnsModule } from './common-columns/common-columns.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { CountModule } from './count/count.module';
     ConfigModule.forRoot({
       load: [configuration],
     }),
+    CommonColumnsModule,
   ],
   controllers: [],
   providers: [],
