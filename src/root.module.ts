@@ -7,6 +7,7 @@ import configuration from './config/configuration';
 import { ConfigModule } from '@nestjs/config';
 import { MetadataModule } from 'src/metadata/metadata.module';
 
+
 @Module({
   imports: [
     Postgresmodule,
@@ -17,6 +18,9 @@ import { MetadataModule } from 'src/metadata/metadata.module';
     ConfigModule.forRoot({
       load: [configuration],
     }),
+
+
+
   ],
   controllers: [],
   providers: [],

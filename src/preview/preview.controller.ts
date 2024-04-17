@@ -3,7 +3,7 @@ import { MysqlService } from "src/mysql/mysql.service";
 import { PostgresService } from "src/postgres/postgres.service";
 import { SnowflakeService } from "src/snowflake/snowflake.service";
 import { PreviewService } from "./preview.service";
-import { PreviewDto } from "src/snowflake/dto/preview.dto";
+import { PreviewDto } from "src/preview/dto/preview.dto";
 
 
 @Controller("preview")

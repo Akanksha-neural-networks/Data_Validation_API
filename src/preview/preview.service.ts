@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { MysqlService } from 'src/mysql/mysql.service';
 import { PostgresService } from 'src/postgres/postgres.service';
-import { PreviewDto } from 'src/snowflake/dto/preview.dto';
+import { PreviewDto } from 'src/preview/dto/preview.dto';
 import { SnowflakeService } from 'src/snowflake/snowflake.service';
 
 @Injectable()
