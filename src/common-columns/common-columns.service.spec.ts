@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MetadataService } from './metadata.service';
+import { CommonColumnsService } from './common-columns.service';
 
-describe('MetadataService', () => {
-  let service: MetadataService;
+describe('CommonColumnsService', () => {
+  let service: CommonColumnsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [MetadataService],
+      providers: [CommonColumnsService],
     }).compile();
 
-    service = module.get<MetadataService>(MetadataService);
+    service = module.get<CommonColumnsService>(CommonColumnsService);
   });
 
   it('should be defined', () => {

@@ -24,7 +24,7 @@ export class PreviewService {
             case 'postgres':
               // console.log("entered postgresssss->",database,table)
               try {
-                const sqlQuery = `select * from ${table}`;
+                const sqlQuery = `select * from ${table} limit 5`;
                 data = await this.postgresService.executeQuery(
                   sqlQuery,
                   database,
@@ -41,7 +41,7 @@ export class PreviewService {
               console.log('entered mysqllll', database, table);
 
               try {
-                const sqlQuery = `select * from ${table}`;
+                const sqlQuery = `select * from ${table} limit 5`;
                 data = await this.mysqlService.executeQuery(sqlQuery, database);
                 result.push({ engine: engine, data: data });
               } catch (error) {
@@ -55,7 +55,7 @@ export class PreviewService {
               console.log('entered snowflakeee', database, table);
 
               try {
-                const sqlQuery = `select * from ${table}`;
+                const sqlQuery = `select * from ${table} limit 5`;
                 data = await this.snowflakeService.executeQuery(
                   sqlQuery,
                   database,

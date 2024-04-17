@@ -43,13 +43,17 @@ export class MetadataService {
       }
       const query = this.queries[source];
       console.log({ query });
+      let result;
       switch (source) {
         case 'snowflake':
-          return await this.snowflakeService.executeQuery(query);
+          result = await this.snowflakeService.executeQuery(query);
+          return result[0].GET_DATABASES_SCHEMAS_TABLES;
         case 'mysql':
-          return await this.mysqlService.executeQuery(query);
+          result = await this.mysqlService.executeQuery(query);
+          return result[0].result;
         case 'postgres':
-          return await this.postgresService.executeQuery(query);
+          result = await this.postgresService.executeQuery(query);
+          return result[0].get_metadatanew;
         default:
           throw new NotFoundException('Invalid source');
       }

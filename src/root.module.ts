@@ -6,6 +6,8 @@ import { PreviewModule } from './preview/preview.module';
 import configuration from './config/configuration';
 import { ConfigModule } from '@nestjs/config';
 import { MetadataModule } from 'src/metadata/metadata.module';
+import { CountModule } from './count/count.module';
+import { CommonColumnsModule } from './common-columns/common-columns.module';
 
 
 @Module({
@@ -15,12 +17,11 @@ import { MetadataModule } from 'src/metadata/metadata.module';
     SnowflakeModule,
     PreviewModule,
     MetadataModule,
+    CountModule,
     ConfigModule.forRoot({
       load: [configuration],
     }),
-
-
-
+    CommonColumnsModule,
   ],
   controllers: [],
   providers: [],
