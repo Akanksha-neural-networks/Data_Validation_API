@@ -1,5 +1,14 @@
 {
-    "snowflake": "CALL GET_DATABASES_SCHEMAS_TABLES();",
-    "mysql": "SELECT JSON_OBJECT('engine', 'mysql', 'metadata', JSON_ARRAYAGG(JSON_OBJECT('database', database_name, 'tables', tables))) AS result FROM (SELECT table_schema AS database_name, JSON_ARRAYAGG(table_name) AS tables FROM information_schema.tables GROUP BY table_schema) AS database_tables;",
-    "postgres": "select get_metadatanew();"
-}
+    "snowflake": {
+      "query": "CALL GET_DATABASES_SCHEMAS_TABLES();",
+      "procedure": "CREATE OR REPLACE PROCEDURE GET_DATABASES_SCHEMAS_TABLES() RETURNS VARIANT LANGUAGE JAVASCRIPT EXECUTE AS CALLER AS $$ var result = {\"engine\": \"snowflake\", \"metadata\": []}; var databases_sql = \"SHOW DATABASES\"; var databases_stmt = snowflake.createStatement({sqlText: databases_sql}); var databases_result = databases_stmt.execute(); while (databases_result.next()) { var database_name = databases_result.getColumnValue(\"name\"); var schemas_sql = \"SHOW SCHEMAS IN DATABASE \" + database_name; var schemas_stmt = snowflake.createStatement({sqlText: schemas_sql}); var schemas_result = schemas_stmt.execute(); var schemas = []; while (schemas_result.next()) { var schema_name = schemas_result.getColumnValue(\"name\"); var tables_sql = \"SHOW TABLES IN SCHEMA \" + database_name + \".\" + schema_name; var tables_stmt = snowflake.createStatement({sqlText: tables_sql}); var tables_result = tables_stmt.execute(); var tables = []; while (tables_result.next()) { var table_name = tables_result.getColumnValue(\"name\"); tables.push(table_name); } schemas.push({\"schema\": schema_name, \"tables\": tables}); } result.metadata.push({\"database\": database_name, \"schemas\": schemas}); } return result; $$;"
+    },
+    "mysql": {
+      "query": "SELECT JSON_OBJECT('engine', 'mysql', 'metadata', JSON_ARRAYAGG(JSON_OBJECT('database', database_name, 'tables', tables))) AS result FROM (SELECT table_schema AS database_name, JSON_ARRAYAGG(table_name) AS tables FROM information_schema.tables GROUP BY table_schema) AS database_tables;"
+    },
+    "postgres": {
+      "query": "SELECT get_metadatanew();",
+      "procedure": "CREATE OR REPLACE FUNCTION get_metadatanew() RETURNS JSON LANGUAGE plpgsql AS $$ DECLARE result JSON; databases_array JSON; BEGIN with agg_tables as (select pgd.datname, sch.schema_name,json_agg(tab.table_name) tables from pg_database pgd left join information_schema.schemata sch on pgd.datname = sch.catalog_name left join information_schema.tables tab on pgd.datname = tab.table_catalog and sch.schema_name = tab.table_schema group by 1,2), agg_schema as (select json_build_object('database', datname, 'schemas', json_agg(json_build_object( 'schema',schema_name, 'tables',tables))) databases from agg_tables group by datname ) select json_agg(databases) metadata from agg_schema INTO databases_array; result := json_build_object('engine', 'PostgreSQL', 'metadata', databases_array); RETURN result; END; $$;"
+    }
+  }
+  

@@ -14,7 +14,7 @@ import { SnowflakeService } from 'src/snowflake/snowflake.service';
 
 @Injectable()
 export class MetadataService {
-  private queries: { [key: string]: string };
+  private queries: { [key: string]: any };
 
   constructor(
     private readonly snowflakeService: SnowflakeService,
@@ -46,13 +46,15 @@ export class MetadataService {
       let result;
       switch (source) {
         case 'snowflake':
-          result = await this.snowflakeService.executeQuery(query);
+          await this.snowflakeService.executeQuery(query.procedure);
+          result = await this.snowflakeService.executeQuery(query.query);
           return result[0].GET_DATABASES_SCHEMAS_TABLES;
         case 'mysql':
           result = await this.mysqlService.executeQuery(query);
           return result[0].result;
         case 'postgres':
-          result = await this.postgresService.executeQuery(query);
+          await this.postgresService.executeQuery(query.procedure);
+          result = await this.postgresService.executeQuery(query.query);
           return result[0].get_metadatanew;
         default:
           throw new NotFoundException('Invalid source');
