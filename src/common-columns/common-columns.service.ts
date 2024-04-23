@@ -89,12 +89,13 @@ export class CommonColumnsService {
     const firstTableData = allColumns[0];
     const result = firstTableData.data.map(({ column, dataType }) => {
       const val = allColumns[1].data.find((tbl2) => tbl2.column === column);
+      if (!val) return;
       return {
         column: val.column,
         [`source_one_${firstTableData.engine}_datatype`]: dataType,
         [`source_two_${allColumns[1].engine}_datatype`]: val.dataType,
       };
     }); 
-    return result;
+    return result.filter(Boolean);
   }
 }
