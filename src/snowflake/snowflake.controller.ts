@@ -1,10 +1,7 @@
-import { Controller, Get, HttpException, HttpStatus } from "@nestjs/common";
-import { SnowflakeService } from "./snowflake.service";
+import { Controller, Get, HttpException, HttpStatus } from '@nestjs/common';
+import { SnowflakeService } from './snowflake.service';
 
-@Controller("snowflake")
+@Controller('snowflake')
 export class SnowflakeController {
-
-    constructor(private  snowflakeService: SnowflakeService) {}   
-
-
+  constructor(private snowflakeService: SnowflakeService) {}
 }

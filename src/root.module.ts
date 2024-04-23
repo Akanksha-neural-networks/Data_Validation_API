@@ -9,7 +9,6 @@ import { MetadataModule } from 'src/metadata/metadata.module';
 import { CountModule } from './count/count.module';
 import { CommonColumnsModule } from './common-columns/common-columns.module';
 
-
 @Module({
   imports: [
     Postgresmodule,

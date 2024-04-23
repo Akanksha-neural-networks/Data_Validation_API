@@ -6,8 +6,8 @@ import { Mysqlmodule } from 'src/mysql/mysql.module';
 import { SnowflakeModule } from 'src/snowflake/snowflake.module';
 
 @Module({
-  imports:[Postgresmodule,Mysqlmodule,SnowflakeModule],
+  imports: [Postgresmodule, Mysqlmodule, SnowflakeModule],
   controllers: [PreviewController],
-  providers: [PreviewService]
+  providers: [PreviewService],
 })
 export class PreviewModule {}

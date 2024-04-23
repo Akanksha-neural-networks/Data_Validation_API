@@ -8,11 +8,7 @@ import { MetadataService } from './metadata.service';
 
 @Controller('metadata')
 export class MetadataController {
-  
-
-  constructor(private readonly metadataService: MetadataService) {
-    
-  }
+  constructor(private readonly metadataService: MetadataService) {}
 
   @Get()
   async getMetadata(@Query('source') source: string): Promise<any> {

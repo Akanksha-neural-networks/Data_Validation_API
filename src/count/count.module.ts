@@ -6,8 +6,8 @@ import { Mysqlmodule } from 'src/mysql/mysql.module';
 import { Postgresmodule } from 'src/postgres/postgres.module';
 
 @Module({
-  imports: [SnowflakeModule,Mysqlmodule,Postgresmodule],
+  imports: [SnowflakeModule, Mysqlmodule, Postgresmodule],
   controllers: [CountController],
-  providers: [CountService]
+  providers: [CountService],
 })
 export class CountModule {}

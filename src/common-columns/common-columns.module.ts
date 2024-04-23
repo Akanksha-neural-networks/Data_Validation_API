@@ -6,8 +6,8 @@ import { Postgresmodule } from 'src/postgres/postgres.module';
 import { SnowflakeModule } from 'src/snowflake/snowflake.module';
 
 @Module({
-  imports:[Postgresmodule,Mysqlmodule,SnowflakeModule],
+  imports: [Postgresmodule, Mysqlmodule, SnowflakeModule],
   controllers: [CommonColumnsController],
-  providers: [CommonColumnsService]
+  providers: [CommonColumnsService],
 })
 export class CommonColumnsModule {}

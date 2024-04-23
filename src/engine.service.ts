@@ -17,6 +17,6 @@ export class EngineService {
   }
 
   getAllEngineNames() {
-    return this.engineData.map(engine => engine.name);
+    return this.engineData.map((engine) => engine.name);
   }
 }

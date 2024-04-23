@@ -13,4 +13,3 @@ export class CommonColumnsController {
     return this.commonColumnsService.getColumns(data);
   }
 }
-

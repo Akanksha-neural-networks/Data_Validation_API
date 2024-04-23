@@ -20,31 +20,48 @@ export class CommonColumnsService {
       switch (request.engine) {
         case 'mysql':
           query = `SHOW COLUMNS FROM ${request.database}.${request.table}`;
-          columns = await this.mysqlService.executeQuery(query, request.database);
+          columns = await this.mysqlService.executeQuery(
+            query,
+            request.database,
+          );
           // Extract only column names
-          const columnNames = columns.map(col => col.Field);
+          const columnNames = columns.map((col) => col.Field);
           allColumns.push({ engine: request.engine, data: columnNames });
           break;
         case 'postgres':
           query = `SELECT column_name FROM information_schema.columns WHERE table_name = '${request.table}'`;
-          columns = await this.postgresService.executeQuery(query, request.database);
+          columns = await this.postgresService.executeQuery(
+            query,
+            request.database,
+          );
           // Extract only column names
-          const columnNamesPostgres = columns.map(col => col.column_name);
-          allColumns.push({ engine: request.engine, data: columnNamesPostgres });
+          const columnNamesPostgres = columns.map((col) => col.column_name);
+          allColumns.push({
+            engine: request.engine,
+            data: columnNamesPostgres,
+          });
           break;
         case 'snowflake':
           query = `DESCRIBE TABLE ${request.database}.public.${request.table}`;
-          columns = await this.snowflakeService.executeQuery(query, request.database);
+          columns = await this.snowflakeService.executeQuery(
+            query,
+            request.database,
+          );
           // Extract only column names
-          const columnNamesSnowflake = columns.map(col => col.name);
-          allColumns.push({ engine: request.engine, data: columnNamesSnowflake });
+          const columnNamesSnowflake = columns.map((col) => col.name);
+          allColumns.push({
+            engine: request.engine,
+            data: columnNamesSnowflake,
+          });
           break;
         default:
           throw new Error('Unsupported database engine');
       }
     }
 
-    const commonColumns = this.findCommonColumns(allColumns.map(({ data }) => data));
+    const commonColumns = this.findCommonColumns(
+      allColumns.map(({ data }) => data),
+    );
 
     return {
       'all-columns': allColumns,
@@ -54,8 +71,8 @@ export class CommonColumnsService {
 
   private findCommonColumns(columnsPerTable: string[][]): string[] {
     const firstTableColumns = columnsPerTable[0];
-    const commonColumns = firstTableColumns.filter(column => {
-      return columnsPerTable.every(columns => columns.includes(column));
+    const commonColumns = firstTableColumns.filter((column) => {
+      return columnsPerTable.every((columns) => columns.includes(column));
     });
     return commonColumns;
   }

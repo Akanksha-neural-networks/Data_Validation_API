@@ -1,6 +1,6 @@
-export class PreviewDto{
-    engine:string ;
-    database: string;
-    schema?:string | null;
-    table: string;
+export class PreviewDto {
+  engine: string;
+  database: string;
+  schema?: string | null;
+  table: string;
 }
