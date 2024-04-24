@@ -13,6 +13,8 @@ export class CommonColumnsService {
   ) {}
 
   async getColumns(data: CommonColumnsDto[]): Promise<any> {
+    if(data.length!==2) return {status:400, error:'Two data sources are allowed!'};
+
     const allColumns = [];
     for (const request of data) {
       let query;
@@ -52,7 +54,7 @@ export class CommonColumnsService {
           });
           break;
         case 'snowflake':
-          query = `DESCRIBE TABLE ${request.database}.public.${request.table}`;
+          query = `DESCRIBE TABLE ${request.database}.${request.schema}.${request.table}`;
           columns = await this.snowflakeService.executeQuery(
             query,
             request.database,
@@ -60,7 +62,7 @@ export class CommonColumnsService {
           // Extract only column names
           const columnNamesSnowflake = columns.map((col) => ({
             column: col.name,
-            dataType: col.data_type,
+            dataType: col.type,
           }));
           allColumns.push({
             engine: request.engine,
