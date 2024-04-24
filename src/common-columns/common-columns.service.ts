@@ -88,9 +88,7 @@ export class CommonColumnsService {
   ): { column: string; [key: string]: string }[] {
     const firstTableData = allColumns[0];
     const result = firstTableData.data.map(({ column, dataType }) => {
-      const val = allColumns[1].data.find(
-        (tbl2) => tbl2.column.toLowerCase() === column.toLowerCase() && tbl2.dataType.toLowerCase() === dataType.toLowerCase()
-      );
+      const val = allColumns[1].data.find((tbl2) => tbl2.column.toLowerCase() === column.toLowerCase());
       if (!val) return;
       return {
         column: val.column,
